@@ -94,12 +94,12 @@ class View
 
 function renderSection(Section $section)
 {
+    echo "\n";
     echo "        <section>\n";
     echo "            <h2>" . $section->getTitle() . "</h2>\n";
     echo "\n";
     echo "            <!-- TODO: Add section content -->\n";
     echo "        </section>\n";
-    echo "\n";
 }
 
 function renderView(View $view)
@@ -111,13 +111,20 @@ function renderView(View $view)
     echo "    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0, shrink-to-fit=no\">\n";
     echo "\n";
     echo "    <title>" . SITE_NAME . (($view->getTitle !== '') ? ' - ' : '') . "{$view->getTitle()}</title>\n";
+    echo "\n";
+    echo "    <!-- Stylesheets -->\n";
+    echo "    <link rel=\"stylesheet\" href=\"res/css/stylesheet.css\">\n";
+    echo "\n";
+    echo "    <!-- Javascript -->\n";
+    echo "    <script src=\"node_modules/jquery/dist/jquery.min.js\"></script>\n";
+    echo "    <script src=\"res/js/enterprise.js\"></script>\n";
     echo "</head>\n";
     echo "<body>\n";
     echo "    <header>\n";
-    echo "        <h1>" . SITE_NAME . "</h1>\n";
+    echo "        <h1 class=\"shadow\">" . SITE_NAME . "</h1>\n";
     echo "    </header>\n";
     echo "\n";
-    echo "    <main role=\"main\">\n";
+    echo "    <main role=\"main\">";
     //echo "        <!-- TODO: Add view content -->\n";
 
     foreach ($view->getSections() as $section) {
@@ -125,6 +132,10 @@ function renderView(View $view)
     }
 
     echo "    </main>\n";
+    echo "\n";
+    echo "    <footer>\n";
+    echo "        <p>Copyright &copy; Enterprise, Inc., 1957-" . (new DateTime())->format('Y') . ".</p>\n";
+    echo "    </footer>\n";
     echo "</body>\n";
     echo "</html>\n";
 }
@@ -135,6 +146,7 @@ $organizationalUnitsSection = new Section('Organizational Units');
 $home = new View('Home');
 $home->appendSection($employeesSection);
 $home->appendSection($organizationalUnitsSection);
+
 renderView($home);
 
 // echo "<!DOCTYPE html>\n";

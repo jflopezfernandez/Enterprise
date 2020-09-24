@@ -1,0 +1,23 @@
+{
+  "name": "dummy",
+  "version": "1.0.0",
+  "description": "This is a sample enterprise management framework written in PHP as a means of exploring sound software engineering principles.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jflopezfernandez/Enterprise.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jflopezfernandez/Enterprise/issues"
+  },
+  "homepage": "https://github.com/jflopezfernandez/Enterprise#readme",
+  "dependencies": {
+    "jquery": "^3.5.1"
+  }
+}

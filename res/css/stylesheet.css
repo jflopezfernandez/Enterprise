@@ -1,0 +1,17 @@
+/**
+ * This is the main file containing the Enterprise, Inc.
+ * Enterprise Management Framework (Enterprise Edition)
+ * styles.
+ *
+ */
+/**
+ * Shadow Utilities
+ */
+.shadow {
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15) !important;
+}
+
+body {
+  background-color: lightblue;
+  color: darkblue;
+}
