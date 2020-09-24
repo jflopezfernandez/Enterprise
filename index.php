@@ -133,8 +133,8 @@ function renderView(View $view)
 
     echo "    </main>\n";
     echo "\n";
-    echo "    <footer>\n";
-    echo "        <p>Copyright &copy; Enterprise, Inc., 1957-" . (new DateTime())->format('Y') . ".</p>\n";
+    echo "    <footer class=\"text-center\">\n";
+    echo "        <p class=\"text-muted\">Copyright &copy; Enterprise, Inc., 1957-" . (new DateTime())->format('Y') . ".</p>\n";
     echo "    </footer>\n";
     echo "</body>\n";
     echo "</html>\n";

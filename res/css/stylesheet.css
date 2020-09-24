@@ -4,6 +4,14 @@
  * styles.
  *
  */
+.text-center {
+  text-align: center !important;
+}
+
+.text-muted {
+  color: #6c757d !important;
+}
+
 /**
  * Shadow Utilities
  */
@@ -11,7 +19,43 @@
   box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15) !important;
 }
 
+@font-face {
+  font-family: 'Abril Fatface';
+  src: url(../fonts/AbrilFatface-Regular.ttf);
+}
+
+@font-face {
+  font-family: 'Lora';
+  src: url(../fonts/Lora/static/Lora-Regular.ttf);
+}
+
+html, body {
+  height: 100%;
+}
+
+html {
+  font-family: serif;
+  line-height: 1.15;
+}
+
 body {
-  background-color: lightblue;
-  color: darkblue;
+  background-color: #FFFFFF;
+  color: #000000;
+  margin: 0;
+}
+
+main {
+  min-height: 93%;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  margin-top: 0;
+}
+
+h1, h2 {
+  font-family: 'Lora Regular', serif;
+}
+
+p {
+  margin-top: 0;
 }
