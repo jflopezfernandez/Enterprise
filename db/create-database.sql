@@ -1,10 +1,17 @@
 
+-- Create the production database.
 -- createdb enterprise
 -- CREATE ROLE enterprise NOLOGIN;
 -- CREATE ROLE enterprisedb LOGIN PASSWORD 'enterprisedb';
 -- GRANT enterprise TO jflopezfernandez, enterprisedb;
 -- ALTER DATABASE enterprise OWNER TO enterprise;
 -- GRANT ALL PRIVILEGES ON DATABASE enterprise TO enterprise;
+
+-- Create the testing database.
+-- createdb -O enterprise enterprisetestdb "Enterprise testing database"
+
+-- Create the development database.
+-- createdb -O enterprise enterprisedevdb "Enterprise development database"
 
 CREATE TABLE IF NOT EXISTS employees(
     id SERIAL PRIMARY KEY,

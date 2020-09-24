@@ -1,0 +1,19 @@
+environment: production
+production:
+    database:
+        hostname: localhost
+        database: enterprise
+        username: enterprisedb
+        password: enterprisedb
+testing:
+    database:
+        hostname: localhost
+        database: enterprisetestdb
+        username: enterprisedb
+        password: enterprisedb
+development:
+    database:
+        hostname: localhost
+        database: enterprisedevdb
+        username: enterprisedb
+        password: enterprisedb
