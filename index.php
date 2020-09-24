@@ -35,9 +35,31 @@ try {
     die($pdoException->getMessage());
 }
 
+class Section
+{
+    protected string $title;
+
+    public function __construct(string $title)
+    {
+        $this->title = $title;
+    }
+
+    public function setTitle(string $title) : void
+    {
+        $this->title = $title;
+    }
+
+    public function getTitle() : string
+    {
+        return $this->title;
+    }
+}
+
 class View
 {
     protected string $title;
+
+    protected array $sections = [ ];
 
     public function __construct(string $title = '')
     {
@@ -53,6 +75,31 @@ class View
     {
         return $this->title;
     }
+
+    public function prependSection(Section $section) : void
+    {
+        array_unshift($this->sections, $section);
+    }
+
+    public function appendSection(Section $section) : void
+    {
+        array_push($this->sections, $section);
+    }
+
+    public function getSections() : array
+    {
+        return $this->sections;
+    }
+}
+
+function renderSection(Section $section)
+{
+    echo "        <section>\n";
+    echo "            <h2>" . $section->getTitle() . "</h2>\n";
+    echo "\n";
+    echo "            <!-- TODO: Add section content -->\n";
+    echo "        </section>\n";
+    echo "\n";
 }
 
 function renderView(View $view)
@@ -71,13 +118,23 @@ function renderView(View $view)
     echo "    </header>\n";
     echo "\n";
     echo "    <main role=\"main\">\n";
-    echo "        <!-- TODO: Add view content -->\n";
+    //echo "        <!-- TODO: Add view content -->\n";
+
+    foreach ($view->getSections() as $section) {
+        renderSection($section);
+    }
+
     echo "    </main>\n";
     echo "</body>\n";
     echo "</html>\n";
 }
 
+$employeesSection = new Section('Employees');
+$organizationalUnitsSection = new Section('Organizational Units');
+
 $home = new View('Home');
+$home->appendSection($employeesSection);
+$home->appendSection($organizationalUnitsSection);
 renderView($home);
 
 // echo "<!DOCTYPE html>\n";
