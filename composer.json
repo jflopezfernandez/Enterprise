@@ -1,0 +1,9 @@
+{
+    "require": {
+        "nesbot/carbon": "^2.40",
+        "symfony/config": "^5.1",
+        "symfony/yaml": "^5.1",
+        "symfony/console": "^5.1",
+	    "ext-pdo": "*"
+    }
+}

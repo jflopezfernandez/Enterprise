@@ -1,0 +1,8 @@
+# IDE Directories
+/.idea/
+/.code/
+
+# Asset Directories
+/node_modules/
+/vendor/
+
