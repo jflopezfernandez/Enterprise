@@ -4,12 +4,47 @@
  * styles.
  *
  */
+/** Variable Definitions */
+/**
+ * Body
+ *
+ * Settings for the <body> element.
+ *
+ */
+/**
+ * Links
+ *
+ * Style anchor elements.
+ *
+ */
+/**
+ * Grid Breakpoints
+ *
+ * Define the minimum dimensions at which your layout will
+ * change, adapting to different screen sizes, for use in
+ * media queries.
+ *
+ */
+/**
+ * Line Heights
+ *
+ */
+/** Layout */
 .text-center {
   text-align: center !important;
 }
 
 .text-muted {
   color: #6c757d !important;
+}
+
+.container,
+.container-fluid {
+  width: 100%;
+  padding-right: 15px;
+  padding-left: 15px;
+  margin-right: auto;
+  margin-left: auto;
 }
 
 /**
@@ -45,7 +80,7 @@ body {
 }
 
 main {
-  min-height: 93%;
+  min-height: 95%;
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -58,4 +93,8 @@ h1, h2 {
 
 p {
   margin-top: 0;
+}
+
+small {
+  font-size: 0.8rem;
 }

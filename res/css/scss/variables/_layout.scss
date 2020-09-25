@@ -1,0 +1,39 @@
+
+/**
+ * Body
+ *
+ * Settings for the <body> element.
+ *
+ */
+$body-bg: $white !default;
+$body-color: #212529 !default;
+
+/**
+ * Links
+ *
+ * Style anchor elements.
+ *
+ */
+$link-color: #007BFF;
+$link-decoration: none !default;
+$link-hover-color: $gray-600;
+$link-hover-decoration: none !default;
+
+/**
+ * Grid Breakpoints
+ *
+ * Define the minimum dimensions at which your layout will
+ * change, adapting to different screen sizes, for use in
+ * media queries.
+ *
+ */
+$grid-columns: 12 !default;
+$grid-gutter-width: 30px !default;
+$grid-row-columns: 6 !default;
+
+/**
+ * Line Heights
+ *
+ */
+$line-height-lg: 1.5 !default;
+$line-height-sm: 1.5 !default;

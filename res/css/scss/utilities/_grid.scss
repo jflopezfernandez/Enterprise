@@ -1,0 +1,7 @@
+
+@if $enable-grid-classes {
+    .container,
+    .container-fluid {
+        @include make-container();
+    }
+}

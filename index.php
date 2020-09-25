@@ -35,6 +35,71 @@ try {
     die($pdoException->getMessage());
 }
 
+class Configuration
+{
+    /** @var string $filename The configuration filename to parse. */
+    protected static string $filename = ROOT_DIRECTORY . CONFIGURATION_FILENAME;
+
+    /** @var array $settings The settings array returned by yaml_parse_file. */
+    protected static array $settings = [];
+    
+    /**
+     * This class is meant to be a global singleton, where
+     * every method is defined as both public and static,
+     * and the constructor is therefore defined as private
+     * to prevent any Configuration objects from actually
+     * being instantiated.
+     * 
+     * @return void
+     */
+    private function __construct() { }
+
+    /**
+     * This function acts as the configuration settings
+     * constructor, since the class is meant to be used as a
+     * static singleton, and therefore does not use its
+     * actual constructor.
+     *
+     * @return void
+     * 
+     * @throws \Enterprise\NonexistentConfigurationFileException()
+     * 
+     */
+    public static function init() : void
+    {
+        if (!file_exists(self::$filename)) {
+            throw new \Enterprise\NonexistentConfigurationFileException();
+        }
+
+        if (self::$settings === [ ]) {
+            self::$settings = yaml_parse_file(self::$filename);
+        }
+    }
+
+    /**
+     * Return the entire configuration settings array.
+     *
+     * @return array self::$settings Array containing all application settings.
+     */
+    public static function dump() : array
+    {
+        return self::$settings;
+    }
+}
+
+var_dump(Configuration::dump());
+
+Configuration::init();
+var_dump(Configuration::dump());
+
+exit();
+
+// ---------------------------------------------------------
+
+// $home = new \Enterprise\Application\View();
+// $home->render();
+
+//First Version:
 class Section
 {
     protected string $title;
@@ -92,53 +157,117 @@ class View
     }
 }
 
-function renderSection(Section $section)
+class SectionRenderer
 {
-    echo "\n";
-    echo "        <section>\n";
-    echo "            <h2>" . $section->getTitle() . "</h2>\n";
-    echo "\n";
-    echo "            <!-- TODO: Add section content -->\n";
-    echo "        </section>\n";
-}
-
-function renderView(View $view)
-{
-    echo "<!DOCTYPE html>\n";
-    echo "<html lang=\"en-US\">\n";
-    echo "<head>\n";
-    echo "    <meta charset=\"UTF-8\">\n";
-    echo "    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0, shrink-to-fit=no\">\n";
-    echo "\n";
-    echo "    <title>" . SITE_NAME . (($view->getTitle !== '') ? ' - ' : '') . "{$view->getTitle()}</title>\n";
-    echo "\n";
-    echo "    <!-- Stylesheets -->\n";
-    echo "    <link rel=\"stylesheet\" href=\"res/css/stylesheet.css\">\n";
-    echo "\n";
-    echo "    <!-- Javascript -->\n";
-    echo "    <script src=\"node_modules/jquery/dist/jquery.min.js\"></script>\n";
-    echo "    <script src=\"res/js/enterprise.js\"></script>\n";
-    echo "</head>\n";
-    echo "<body>\n";
-    echo "    <header>\n";
-    echo "        <h1 class=\"shadow\">" . SITE_NAME . "</h1>\n";
-    echo "    </header>\n";
-    echo "\n";
-    echo "    <main role=\"main\">";
-    //echo "        <!-- TODO: Add view content -->\n";
-
-    foreach ($view->getSections() as $section) {
-        renderSection($section);
+    public static function renderSection(Section $section) : void
+    {
+        echo "\n";
+        echo "        <section>\n";
+        echo "            <h2>" . $section->getTitle() . "</h2>\n";
+        echo "\n";
+        //echo "            <!-- TODO: Add section content -->\n";
+        // global $db;
+        // foreach ($db->query('SELECT * FROM employees') as $employee) {
+        //     echo "            <p>$employee[last_name], $employee[first_name]</p>\n";
+        // }
+        foreach (Enterprise\DB::getHandle()->query('SELECT * FROM employees') as $employee) {
+            echo "            <p>$employee[last_name], $employee[first_name]</p>\n";
+        }
+        echo "        </section>\n";
     }
-
-    echo "    </main>\n";
-    echo "\n";
-    echo "    <footer class=\"text-center\">\n";
-    echo "        <p class=\"text-muted\">Copyright &copy; Enterprise, Inc., 1957-" . (new DateTime())->format('Y') . ".</p>\n";
-    echo "    </footer>\n";
-    echo "</body>\n";
-    echo "</html>\n";
 }
+
+class ViewRenderer
+{
+    public static function renderView(View $view) : void
+    {
+        echo "<!DOCTYPE html>\n";
+        echo "<html lang=\"en-US\">\n";
+        echo "<head>\n";
+        echo "    <meta charset=\"UTF-8\">\n";
+        echo "    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0, shrink-to-fit=no\">\n";
+        echo "\n";
+        echo "    <title>" . SITE_NAME . (($view->getTitle !== '') ? ' - ' : '') . "{$view->getTitle()}</title>\n";
+        echo "\n";
+        echo "    <!-- Stylesheets -->\n";
+        echo "    <link rel=\"stylesheet\" href=\"res/css/stylesheet.css\">\n";
+        echo "\n";
+        echo "    <!-- Javascript -->\n";
+        echo "    <script src=\"node_modules/jquery/dist/jquery.min.js\"></script>\n";
+        echo "    <script src=\"res/js/enterprise.js\"></script>\n";
+        echo "</head>\n";
+        echo "<body>\n";
+        echo "    <header>\n";
+        echo "        <h1 class=\"shadow\">" . SITE_NAME . "</h1>\n";
+        echo "    </header>\n";
+        echo "\n";
+        echo "    <main role=\"main\" class=\"container\">";
+        //echo "        <!-- TODO: Add view content -->\n";
+
+        foreach ($view->getSections() as $section) {
+            //renderSection($section);
+            SectionRenderer::renderSection($section);
+        }
+
+        echo "    </main>\n";
+        echo "\n";
+        echo "    <footer class=\"text-center\">\n";
+        echo "        <p class=\"text-muted\">\n";
+        echo "            <small>Copyright &copy; Enterprise, Inc., 1957-" . (new DateTime())->format('Y') . ".</small>\n";
+        echo "        </p>\n";
+        echo "    </footer>\n";
+        echo "</body>\n";
+        echo "</html>\n";
+    }
+}
+
+// function renderSection(Section $section)
+// {
+//     echo "\n";
+//     echo "        <section>\n";
+//     echo "            <h2>" . $section->getTitle() . "</h2>\n";
+//     echo "\n";
+//     echo "            <!-- TODO: Add section content -->\n";
+//     echo "        </section>\n";
+// }
+
+// function renderView(View $view)
+// {
+//     echo "<!DOCTYPE html>\n";
+//     echo "<html lang=\"en-US\">\n";
+//     echo "<head>\n";
+//     echo "    <meta charset=\"UTF-8\">\n";
+//     echo "    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0, shrink-to-fit=no\">\n";
+//     echo "\n";
+//     echo "    <title>" . SITE_NAME . (($view->getTitle !== '') ? ' - ' : '') . "{$view->getTitle()}</title>\n";
+//     echo "\n";
+//     echo "    <!-- Stylesheets -->\n";
+//     echo "    <link rel=\"stylesheet\" href=\"res/css/stylesheet.css\">\n";
+//     echo "\n";
+//     echo "    <!-- Javascript -->\n";
+//     echo "    <script src=\"node_modules/jquery/dist/jquery.min.js\"></script>\n";
+//     echo "    <script src=\"res/js/enterprise.js\"></script>\n";
+//     echo "</head>\n";
+//     echo "<body>\n";
+//     echo "    <header>\n";
+//     echo "        <h1 class=\"shadow\">" . SITE_NAME . "</h1>\n";
+//     echo "    </header>\n";
+//     echo "\n";
+//     echo "    <main role=\"main\">";
+//     //echo "        <!-- TODO: Add view content -->\n";
+
+//     foreach ($view->getSections() as $section) {
+//         renderSection($section);
+//     }
+
+//     echo "    </main>\n";
+//     echo "\n";
+//     echo "    <footer class=\"text-center\">\n";
+//     echo "        <p class=\"text-muted\">Copyright &copy; Enterprise, Inc., 1957-" . (new DateTime())->format('Y') . ".</p>\n";
+//     echo "    </footer>\n";
+//     echo "</body>\n";
+//     echo "</html>\n";
+// }
 
 $employeesSection = new Section('Employees');
 $organizationalUnitsSection = new Section('Organizational Units');
@@ -147,8 +276,13 @@ $home = new View('Home');
 $home->appendSection($employeesSection);
 $home->appendSection($organizationalUnitsSection);
 
-renderView($home);
+ViewRenderer::renderView($home);
 
+//renderView($home);
+
+// ---------------------------------------------------------
+
+//Zeroth version:
 // echo "<!DOCTYPE html>\n";
 // echo "<html lang=\"en-US\">\n";
 // echo "<head>\n";
